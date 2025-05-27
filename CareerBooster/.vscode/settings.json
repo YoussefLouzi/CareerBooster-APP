@@ -1,0 +1,5 @@
+{
+    "react-native.packager.port": 8082,
+    "react-native-tools.projectRoot": "${workspaceFolder}",
+    "react-native.command.runExponent": "npx expo start"
+}
