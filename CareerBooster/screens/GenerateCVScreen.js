@@ -66,6 +66,9 @@ export default function GenerateCVScreen({ navigation }) {
   // Loading state for CV generation
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // State for project technology inputs
+  const [projectTechInputs, setProjectTechInputs] = useState({});
+
   // Functions to manage data
   const addSkill = () => {
     if (newSkill.trim()) {
@@ -120,6 +123,139 @@ export default function GenerateCVScreen({ navigation }) {
     const updatedAwards = [...awards];
     updatedAwards.splice(index, 1);
     setAwards(updatedAwards);
+  };
+
+  // Functions for experiences
+  const addExperience = () => {
+    const newExperience = {
+      company: "",
+      position: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+    };
+    setExperiences([...experiences, newExperience]);
+  };
+
+  const updateExperience = (index, field, value) => {
+    const updatedExperiences = [...experiences];
+    updatedExperiences[index][field] = value;
+    setExperiences(updatedExperiences);
+  };
+
+  const removeExperience = (index) => {
+    const updatedExperiences = [...experiences];
+    updatedExperiences.splice(index, 1);
+    setExperiences(updatedExperiences);
+  };
+
+  // Functions for education
+  const addEducation = () => {
+    const newEducation = {
+      institution: "",
+      degree: "",
+      fieldOfStudy: "",
+      startDate: "",
+      endDate: "",
+    };
+    setEducation([...education, newEducation]);
+  };
+
+  const updateEducation = (index, field, value) => {
+    const updatedEducation = [...education];
+    updatedEducation[index][field] = value;
+    setEducation(updatedEducation);
+  };
+
+  const removeEducation = (index) => {
+    const updatedEducation = [...education];
+    updatedEducation.splice(index, 1);
+    setEducation(updatedEducation);
+  };
+
+  // Functions for projects
+  const addProject = () => {
+    const newProject = {
+      name: "",
+      description: "",
+      technologies: [],
+      url: "",
+      startDate: "",
+      endDate: "",
+    };
+    setProjects([...projects, newProject]);
+  };
+
+  const updateProject = (index, field, value) => {
+    const updatedProjects = [...projects];
+    updatedProjects[index][field] = value;
+    setProjects(updatedProjects);
+  };
+
+  const removeProject = (index) => {
+    const updatedProjects = [...projects];
+    updatedProjects.splice(index, 1);
+    setProjects(updatedProjects);
+  };
+
+  const addProjectTechnology = (projectIndex, technology) => {
+    if (technology.trim()) {
+      const updatedProjects = [...projects];
+      updatedProjects[projectIndex].technologies.push(technology.trim());
+      setProjects(updatedProjects);
+    }
+  };
+
+  const removeProjectTechnology = (projectIndex, techIndex) => {
+    const updatedProjects = [...projects];
+    updatedProjects[projectIndex].technologies.splice(techIndex, 1);
+    setProjects(updatedProjects);
+  };
+
+  // Functions for certifications
+  const addCertification = () => {
+    const newCertification = {
+      name: "",
+      issuer: "",
+      date: "",
+      expiryDate: "",
+      credentialId: "",
+      credentialUrl: "",
+    };
+    setCertifications([...certifications, newCertification]);
+  };
+
+  const updateCertification = (index, field, value) => {
+    const updatedCertifications = [...certifications];
+    updatedCertifications[index][field] = value;
+    setCertifications(updatedCertifications);
+  };
+
+  const removeCertification = (index) => {
+    const updatedCertifications = [...certifications];
+    updatedCertifications.splice(index, 1);
+    setCertifications(updatedCertifications);
+  };
+
+  // Functions for languages
+  const addLanguage = () => {
+    const newLanguage = {
+      name: "",
+      proficiency: "",
+    };
+    setLanguages([...languages, newLanguage]);
+  };
+
+  const updateLanguage = (index, field, value) => {
+    const updatedLanguages = [...languages];
+    updatedLanguages[index][field] = value;
+    setLanguages(updatedLanguages);
+  };
+
+  const removeLanguage = (index) => {
+    const updatedLanguages = [...languages];
+    updatedLanguages.splice(index, 1);
+    setLanguages(updatedLanguages);
   };
 
   // Function to generate CV
@@ -486,6 +622,254 @@ export default function GenerateCVScreen({ navigation }) {
           </View>
         </View>
 
+        {/* Professional Experience Section */}
+        <Text style={styles.sectionTitle}>Professional Experience</Text>
+        <View style={styles.card}>
+          {experiences.map((experience, index) => (
+            <View key={index} style={styles.experienceItem}>
+              <View style={styles.experienceHeader}>
+                <Text style={styles.experienceTitle}>
+                  Experience {index + 1}
+                </Text>
+                <TouchableOpacity onPress={() => removeExperience(index)}>
+                  <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Company</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="business-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Company name"
+                    value={experience.company}
+                    onChangeText={(text) =>
+                      updateExperience(index, "company", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Position</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="briefcase-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Job title"
+                    value={experience.position}
+                    onChangeText={(text) =>
+                      updateExperience(index, "position", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.dateRow}>
+                <View style={styles.dateInput}>
+                  <Text style={styles.inputLabel}>Start Date</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#86888A"
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="MM/YYYY"
+                      value={experience.startDate}
+                      onChangeText={(text) =>
+                        updateExperience(index, "startDate", text)
+                      }
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.dateInput}>
+                  <Text style={styles.inputLabel}>End Date</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#86888A"
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="MM/YYYY or Present"
+                      value={experience.endDate}
+                      onChangeText={(text) =>
+                        updateExperience(index, "endDate", text)
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Description</Text>
+                <TextInput
+                  style={styles.textArea}
+                  placeholder="Describe your responsibilities and achievements"
+                  value={experience.description}
+                  onChangeText={(text) =>
+                    updateExperience(index, "description", text)
+                  }
+                  multiline={true}
+                  numberOfLines={3}
+                />
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={styles.addSectionButton}
+            onPress={addExperience}
+          >
+            <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
+            <Text style={styles.addSectionText}>Add Experience</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Education Section */}
+        <Text style={styles.sectionTitle}>Education</Text>
+        <View style={styles.card}>
+          {education.map((edu, index) => (
+            <View key={index} style={styles.experienceItem}>
+              <View style={styles.experienceHeader}>
+                <Text style={styles.experienceTitle}>
+                  Education {index + 1}
+                </Text>
+                <TouchableOpacity onPress={() => removeEducation(index)}>
+                  <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Institution</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="school-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="University/School name"
+                    value={edu.institution}
+                    onChangeText={(text) =>
+                      updateEducation(index, "institution", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Degree</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="ribbon-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Bachelor's, Master's, PhD, etc."
+                    value={edu.degree}
+                    onChangeText={(text) =>
+                      updateEducation(index, "degree", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Field of Study</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="book-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Computer Science, Engineering, etc."
+                    value={edu.fieldOfStudy}
+                    onChangeText={(text) =>
+                      updateEducation(index, "fieldOfStudy", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.dateRow}>
+                <View style={styles.dateInput}>
+                  <Text style={styles.inputLabel}>Start Date</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#86888A"
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="MM/YYYY"
+                      value={edu.startDate}
+                      onChangeText={(text) =>
+                        updateEducation(index, "startDate", text)
+                      }
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.dateInput}>
+                  <Text style={styles.inputLabel}>End Date</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#86888A"
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="MM/YYYY or Present"
+                      value={edu.endDate}
+                      onChangeText={(text) =>
+                        updateEducation(index, "endDate", text)
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={styles.addSectionButton}
+            onPress={addEducation}
+          >
+            <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
+            <Text style={styles.addSectionText}>Add Education</Text>
+          </TouchableOpacity>
+        </View>
+
         <Text style={styles.sectionTitle}>Hobbies & Interests</Text>
         <View style={styles.card}>
           <View style={styles.skillsList}>
@@ -543,6 +927,308 @@ export default function GenerateCVScreen({ navigation }) {
               <Ionicons name="add" size={24} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
+        </View>
+
+        {/* Projects Section */}
+        <Text style={styles.sectionTitle}>Projects</Text>
+        <View style={styles.card}>
+          {projects.map((project, index) => (
+            <View key={index} style={styles.experienceItem}>
+              <View style={styles.experienceHeader}>
+                <Text style={styles.experienceTitle}>Project {index + 1}</Text>
+                <TouchableOpacity onPress={() => removeProject(index)}>
+                  <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Project Name</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="code-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Project name"
+                    value={project.name}
+                    onChangeText={(text) => updateProject(index, "name", text)}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Description</Text>
+                <TextInput
+                  style={styles.textArea}
+                  placeholder="Describe the project and your role"
+                  value={project.description}
+                  onChangeText={(text) =>
+                    updateProject(index, "description", text)
+                  }
+                  multiline={true}
+                  numberOfLines={3}
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Technologies</Text>
+                <View style={styles.skillsList}>
+                  {project.technologies.map((tech, techIndex) => (
+                    <View key={techIndex} style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>{tech}</Text>
+                      <TouchableOpacity
+                        onPress={() =>
+                          removeProjectTechnology(index, techIndex)
+                        }
+                      >
+                        <Ionicons
+                          name="close-circle"
+                          size={18}
+                          color="#FFFFFF"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.addSkillContainer}>
+                  <View style={[styles.inputWrapper, { flex: 1 }]}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Add technology"
+                      value={projectTechInputs[index] || ""}
+                      onChangeText={(text) =>
+                        setProjectTechInputs({
+                          ...projectTechInputs,
+                          [index]: text,
+                        })
+                      }
+                      onSubmitEditing={() => {
+                        if (projectTechInputs[index]?.trim()) {
+                          addProjectTechnology(index, projectTechInputs[index]);
+                          setProjectTechInputs({
+                            ...projectTechInputs,
+                            [index]: "",
+                          });
+                        }
+                      }}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => {
+                      if (projectTechInputs[index]?.trim()) {
+                        addProjectTechnology(index, projectTechInputs[index]);
+                        setProjectTechInputs({
+                          ...projectTechInputs,
+                          [index]: "",
+                        });
+                      }
+                    }}
+                  >
+                    <Ionicons name="add" size={24} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Project URL (optional)</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="link-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="https://github.com/username/project"
+                    value={project.url}
+                    onChangeText={(text) => updateProject(index, "url", text)}
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={styles.addSectionButton}
+            onPress={addProject}
+          >
+            <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
+            <Text style={styles.addSectionText}>Add Project</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Certifications Section */}
+        <Text style={styles.sectionTitle}>Certifications</Text>
+        <View style={styles.card}>
+          {certifications.map((cert, index) => (
+            <View key={index} style={styles.experienceItem}>
+              <View style={styles.experienceHeader}>
+                <Text style={styles.experienceTitle}>
+                  Certification {index + 1}
+                </Text>
+                <TouchableOpacity onPress={() => removeCertification(index)}>
+                  <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Certification Name</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="ribbon-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="AWS Certified Developer, etc."
+                    value={cert.name}
+                    onChangeText={(text) =>
+                      updateCertification(index, "name", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Issuer</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="business-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Amazon Web Services, Microsoft, etc."
+                    value={cert.issuer}
+                    onChangeText={(text) =>
+                      updateCertification(index, "issuer", text)
+                    }
+                  />
+                </View>
+              </View>
+
+              <View style={styles.dateRow}>
+                <View style={styles.dateInput}>
+                  <Text style={styles.inputLabel}>Date Obtained</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#86888A"
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="MM/YYYY"
+                      value={cert.date}
+                      onChangeText={(text) =>
+                        updateCertification(index, "date", text)
+                      }
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.dateInput}>
+                  <Text style={styles.inputLabel}>Expiry Date</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#86888A"
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="MM/YYYY or Never"
+                      value={cert.expiryDate}
+                      onChangeText={(text) =>
+                        updateCertification(index, "expiryDate", text)
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={styles.addSectionButton}
+            onPress={addCertification}
+          >
+            <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
+            <Text style={styles.addSectionText}>Add Certification</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Languages Section */}
+        <Text style={styles.sectionTitle}>Languages</Text>
+        <View style={styles.card}>
+          {languages.map((language, index) => (
+            <View key={index} style={styles.experienceItem}>
+              <View style={styles.experienceHeader}>
+                <Text style={styles.experienceTitle}>Language {index + 1}</Text>
+                <TouchableOpacity onPress={() => removeLanguage(index)}>
+                  <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Language</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="language-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="English, Spanish, French, etc."
+                    value={language.name}
+                    onChangeText={(text) => updateLanguage(index, "name", text)}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Proficiency Level</Text>
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="bar-chart-outline"
+                    size={20}
+                    color="#86888A"
+                    style={styles.inputIcon}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Native, Fluent, Intermediate, Basic"
+                    value={language.proficiency}
+                    onChangeText={(text) =>
+                      updateLanguage(index, "proficiency", text)
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={styles.addSectionButton}
+            onPress={addLanguage}
+          >
+            <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
+            <Text style={styles.addSectionText}>Add Language</Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.sectionTitle}>Awards & Achievements</Text>

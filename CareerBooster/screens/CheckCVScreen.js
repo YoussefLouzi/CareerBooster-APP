@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,38 +8,38 @@ import {
   ActivityIndicator,
   Alert,
   Platform,
-} from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useAuth } from '../App';
-import { API_BASE_URL, MAX_FILE_SIZE, ALLOWED_FILE_TYPES } from '../config';
+} from "react-native";
+import * as DocumentPicker from "expo-document-picker";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useAuth } from "../App";
+import { API_BASE_URL, MAX_FILE_SIZE, ALLOWED_FILE_TYPES } from "../config";
 
 export default function CheckCVScreen() {
   const { user } = useAuth();
   const [selectedFile, setSelectedFile] = useState(null);
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [loadingStep, setLoadingStep] = useState('');
+  const [loadingStep, setLoadingStep] = useState("");
   const [parsingError, setParsingError] = useState(null);
 
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: 'application/pdf',
+        type: "application/pdf",
         copyToCacheDirectory: true,
       });
-      
+
       if (result.assets && result.assets.length > 0) {
         const file = result.assets[0];
-        file.type = 'application/pdf';
+        file.type = "application/pdf";
         setSelectedFile(file);
         await analyzeCV(file);
       } else {
-        console.log('No file selected or picker cancelled');
+        console.log("No file selected or picker cancelled");
       }
     } catch (err) {
-      console.error('Error picking document:', err);
-      Alert.alert('Error', 'Failed to pick document. Please try again.');
+      console.error("Error picking document:", err);
+      Alert.alert("Error", "Failed to pick document. Please try again.");
     }
   };
 
@@ -47,70 +47,78 @@ export default function CheckCVScreen() {
     setLoading(true);
     setAnalysis(null);
     setParsingError(null);
-    setLoadingStep('Preparing file for upload...');
+    setLoadingStep("Preparing file for upload...");
 
     try {
       if (file.size > MAX_FILE_SIZE) {
-        throw new Error(`File size exceeds ${MAX_FILE_SIZE / (1024 * 1024)}MB limit`);
+        throw new Error(
+          `File size exceeds ${MAX_FILE_SIZE / (1024 * 1024)}MB limit`
+        );
       }
 
       const formData = new FormData();
 
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         const response = await fetch(file.uri);
         const blob = await response.blob();
-        const fileToUpload = new File([blob], file.name || 'document.pdf', {
-          type: 'application/pdf'
+        const fileToUpload = new File([blob], file.name || "document.pdf", {
+          type: "application/pdf",
         });
-        formData.append('file', fileToUpload, fileToUpload.name);
+        formData.append("file", fileToUpload, fileToUpload.name);
       } else {
-        formData.append('file', {
-          uri: Platform.OS === 'ios' ? file.uri.replace('file://', '') : file.uri,
-          type: 'application/pdf',
-          name: file.name || 'document.pdf'
+        formData.append("file", {
+          uri:
+            Platform.OS === "ios" ? file.uri.replace("file://", "") : file.uri,
+          type: "application/pdf",
+          name: file.name || "document.pdf",
         });
       }
 
-      setLoadingStep('Uploading CV to server...');
+      setLoadingStep("Uploading CV to server...");
 
       if (!user?.token) {
-        throw new Error('Authentication token is missing. Please log in again.');
+        throw new Error(
+          "Authentication token is missing. Please log in again."
+        );
       }
 
       const uploadUrl = `${API_BASE_URL}/api/cv/upload?analysisType=general_analysis`;
 
       const response = await fetch(uploadUrl, {
-        method: 'POST',
+        method: "POST",
         body: formData,
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
-        }
+          Accept: "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
       });
 
       if (!response.ok) {
         const errorData = await response.text();
         if (response.status === 401) {
-          throw new Error('Authentication failed. Please log in again.');
+          throw new Error("Authentication failed. Please log in again.");
         } else if (response.status === 413) {
-          throw new Error('File is too large. Please upload a smaller file.');
+          throw new Error("File is too large. Please upload a smaller file.");
         } else if (response.status === 415) {
-          throw new Error('Invalid file type. Please upload a PDF file.');
+          throw new Error("Invalid file type. Please upload a PDF file.");
         } else {
           throw new Error(`Server error: ${response.status} - ${errorData}`);
         }
       }
 
-      setLoadingStep('Processing CV content...');
+      setLoadingStep("Processing CV content...");
       const data = await response.json();
       setAnalysis(data.recommendations);
     } catch (error) {
-      console.error('Error analyzing CV:', error);
+      console.error("Error analyzing CV:", error);
       setParsingError(error.message);
-      Alert.alert('Error', error.message || 'Failed to analyze CV. Please try again.');
+      Alert.alert(
+        "Error",
+        error.message || "Failed to analyze CV. Please try again."
+      );
     } finally {
       setLoading(false);
-      setLoadingStep('');
+      setLoadingStep("");
     }
   };
 
@@ -125,9 +133,9 @@ export default function CheckCVScreen() {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Icon
-          name={data.present ? 'checkmark-circle' : 'close-circle'}
+          name={data.present ? "checkmark-circle" : "close-circle"}
           size={24}
-          color={data.present ? '#4CAF50' : '#F44336'}
+          color={data.present ? "#4CAF50" : "#F44336"}
         />
         <Text style={styles.sectionTitle}>{title}</Text>
         {data.present && <Text style={styles.sectionScore}>{data.score}%</Text>}
@@ -139,19 +147,29 @@ export default function CheckCVScreen() {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Analyze Your CV</Text>
-        <Text style={styles.subtitle}>Get feedback and suggestions to improve your CV</Text>
+        <Text style={styles.subtitle}>
+          Get feedback and suggestions to improve your CV
+        </Text>
       </View>
 
-      <TouchableOpacity style={styles.uploadButton} onPress={pickDocument} disabled={loading}>
-        <Icon name="cloud-upload-outline" size={24} color="#E53935" />
+      <TouchableOpacity
+        style={styles.uploadButton}
+        onPress={pickDocument}
+        disabled={loading}
+      >
+        <Icon name="cloud-upload-outline" size={24} color="#1976D2" />
         <Text style={styles.uploadButtonText}>
-          {loading ? 'Analyzing...' : (selectedFile ? selectedFile.name : 'Upload your CV (PDF)')}
+          {loading
+            ? "Analyzing..."
+            : selectedFile
+            ? selectedFile.name
+            : "Upload your CV (PDF)"}
         </Text>
       </TouchableOpacity>
 
       {loading && (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#E53935" />
+          <ActivityIndicator size="large" color="#1976D2" />
           <Text style={styles.loadingText}>{loadingStep}</Text>
         </View>
       )}
@@ -175,7 +193,7 @@ export default function CheckCVScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#F8FBFF",
     padding: 20,
   },
   header: {
@@ -183,118 +201,123 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#1976D2",
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginTop: 5,
   },
   uploadButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E53935',
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#1976D2",
     borderRadius: 8,
     padding: 15,
     marginVertical: 20,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    shadowColor: "#1976D2",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   uploadButtonText: {
     marginLeft: 10,
-    color: '#E53935',
+    color: "#1976D2",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   loadingContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 20,
   },
   loadingText: {
     marginTop: 10,
-    color: '#666',
+    color: "#666",
     fontSize: 15,
   },
   analysisContainer: {
     marginTop: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 15,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: "#eee",
   },
   analysisTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 10,
   },
   analysisText: {
     fontSize: 16,
-    color: '#444',
+    color: "#444",
     lineHeight: 24,
   },
   errorContainer: {
     marginTop: 20,
-    backgroundColor: '#FFEEEE',
+    backgroundColor: "#FFEEEE",
     borderRadius: 8,
     padding: 15,
     borderWidth: 1,
-    borderColor: '#FFDDDD',
+    borderColor: "#FFDDDD",
   },
   errorText: {
     fontSize: 16,
-    color: '#D32F2F',
+    color: "#D32F2F",
   },
   scoreContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 20,
   },
   scoreText: {
     fontSize: 48,
-    fontWeight: 'bold',
-    color: '#E53935',
+    fontWeight: "bold",
+    color: "#1976D2",
   },
   scoreLabel: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginTop: 5,
   },
   sectionHeader: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: "600",
+    color: "#333",
     marginVertical: 15,
   },
   section: {
     marginBottom: 15,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   sectionTitle: {
     fontSize: 16,
     marginLeft: 10,
-    color: '#333',
+    color: "#333",
   },
   sectionScore: {
-    marginLeft: 'auto',
-    color: '#666',
+    marginLeft: "auto",
+    color: "#666",
   },
   suggestionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
     padding: 10,
-    backgroundColor: '#FFF5F5',
+    backgroundColor: "#FFF5F5",
     borderRadius: 8,
   },
   suggestionText: {
     marginLeft: 10,
     flex: 1,
-    color: '#333',
+    color: "#333",
   },
-}); 
+});

@@ -58,7 +58,7 @@ export default function HomeScreen() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#E53935" />
+        <ActivityIndicator size="large" color="#1976D2" />
         <Text style={styles.loadingText}>Loading your career data...</Text>
       </View>
     );
@@ -82,34 +82,6 @@ export default function HomeScreen() {
         </View>
       )}
 
-      {homeData?.recentAnalyses && homeData.recentAnalyses.length > 0 && (
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Recent Analysis</Text>
-          </View>
-
-          {homeData.recentAnalyses[0].strengths.map((strength, index) => (
-            <AnalysisCard
-              key={`strength-${index}`}
-              title={strength.title}
-              description={strength.description}
-              icon={strength.icon}
-              type="strength"
-            />
-          ))}
-
-          {homeData.recentAnalyses[0].improvements.map((improvement, index) => (
-            <AnalysisCard
-              key={`improvement-${index}`}
-              title={improvement.title}
-              description={improvement.description}
-              icon={improvement.icon}
-              type="improvement"
-            />
-          ))}
-        </View>
-      )}
-
       {error && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{error}</Text>
@@ -122,19 +94,20 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#F8FBFF",
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#F8FBFF",
   },
 
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: "#666",
+    color: "#1976D2",
+    fontWeight: "500",
   },
 
   loadingAnimation: {
@@ -151,7 +124,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: "#1976D2",
   },
   errorContainer: {
     margin: 20,

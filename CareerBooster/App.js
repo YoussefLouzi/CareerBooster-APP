@@ -101,8 +101,8 @@ function MainTabNavigator() {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#E53935",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "#1976D2",
+        tabBarInactiveTintColor: "#90A4AE",
         headerShown: false,
       })}
     >

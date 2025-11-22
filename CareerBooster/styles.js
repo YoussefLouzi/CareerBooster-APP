@@ -8,67 +8,85 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
+    borderColor: "#E3F2FD",
+    borderRadius: 8,
     marginBottom: 12,
+    backgroundColor: "#F8FBFF",
   },
   btn: {
-    backgroundColor: "#0077B5",
+    backgroundColor: "#1976D2",
     padding: 15,
-    borderRadius: 6,
+    borderRadius: 8,
     alignItems: "center",
+    shadowColor: "#1976D2",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   btnText: {
     color: "#fff",
     fontWeight: "bold",
+    fontSize: 16,
   },
   link: {
     marginTop: 16,
-    color: "#0077B5",
+    color: "#1976D2",
     textAlign: "center",
+    fontWeight: "600",
   },
 
   // New styles for GetStartedScreen buttons
   greenBtn: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#2196F3",
   },
   outlineBtn: {
     backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "#0077B5", // Use the primary color for outline
+    borderWidth: 2,
+    borderColor: "#1976D2",
   },
   outlineBtnText: {
-    color: "#0077B5", // Use the primary color for text
+    color: "#1976D2",
+    fontWeight: "600",
   },
 
   // Layout styles
   container: {
     flex: 1,
-    padding: 24,
+    backgroundColor: "#F8FBFF",
   },
   centerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#F8FBFF",
+    padding: 24,
   },
 
   // CV Form styles
   formContainer: {
     padding: 16,
+    backgroundColor: "#F8FBFF",
   },
   sectionContainer: {
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 12,
+    color: "#1976D2",
   },
   addSectionBtn: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "#2196F3",
+    padding: 12,
+    borderRadius: 8,
     marginTop: 10,
+    shadowColor: "#2196F3",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
 
   // Course styles
@@ -117,7 +135,7 @@ export const styles = StyleSheet.create({
     padding: 20,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#0077B5", // Match drawer header background
+    backgroundColor: "#1976D2",
     marginBottom: 10,
   },
   avatar: {
@@ -160,7 +178,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#E53935", // Example color from the image header
+    color: "#1976D2",
   },
   gridContainer: {
     flexDirection: "row",
@@ -195,6 +213,7 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 16,
+    backgroundColor: "#F8FBFF",
   },
   card: {
     backgroundColor: "#fff",
@@ -224,20 +243,21 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#E3F2FD",
     borderRadius: 8,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#F8FBFF",
   },
   inputIcon: {
     marginLeft: 12,
     marginRight: 8,
+    color: "#1976D2",
   },
   textArea: {
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#E3F2FD",
     borderRadius: 8,
     padding: 12,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#F8FBFF",
     fontSize: 14,
     color: "#333",
     textAlignVertical: "top",
@@ -251,11 +271,16 @@ export const styles = StyleSheet.create({
   skillTag: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#0077B5",
+    backgroundColor: "#1976D2",
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 6,
     margin: 4,
+    shadowColor: "#1976D2",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 2,
   },
   skillTagText: {
     color: "#fff",
@@ -268,22 +293,82 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   addButton: {
-    backgroundColor: "#0077B5",
+    backgroundColor: "#1976D2",
     borderRadius: 8,
     padding: 12,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: "#1976D2",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   button: {
-    backgroundColor: "#0077B5",
+    backgroundColor: "#1976D2",
     borderRadius: 8,
     padding: 16,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: "#1976D2",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+
+  // New styles for complex form sections
+  experienceItem: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+    backgroundColor: "#fafafa",
+  },
+  experienceHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  experienceTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+  },
+  dateRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  dateInput: {
+    flex: 1,
+  },
+  addSectionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#E3F2FD",
+    borderWidth: 2,
+    borderColor: "#1976D2",
+    borderStyle: "dashed",
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 8,
+  },
+  addSectionText: {
+    color: "#1976D2",
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 8,
   },
 });
