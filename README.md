@@ -334,7 +334,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions:
-- **Email**: support@careerbooster.com
 - **GitHub Issues**: [Create an issue](https://github.com/YoussefLouzi/CareerBooster-APP/issues)
 - **Documentation**: [Wiki](https://github.com/YoussefLouzi/CareerBooster-APP/wiki)
 
